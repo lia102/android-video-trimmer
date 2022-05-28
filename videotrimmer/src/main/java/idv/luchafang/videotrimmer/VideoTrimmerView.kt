@@ -77,15 +77,14 @@ class VideoTrimmerView @JvmOverloads constructor(
 
     private fun initViews() {
         videoFrameListView.layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
+        presenter = obtainVideoTrimmerPresenter()
+            .apply { onViewAttached(this@VideoTrimmerView) }
     }
 
     /* -------------------------------------------------------------------------------------------*/
     /* Attach / Detach */
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        presenter = obtainVideoTrimmerPresenter()
-            .apply { onViewAttached(this@VideoTrimmerView) }
-        onPresenterCreated()
     }
 
     override fun onDetachedFromWindow() {
@@ -144,6 +143,7 @@ class VideoTrimmerView @JvmOverloads constructor(
 
     fun show() {
         presenter?.show()
+        onPresenterCreated()
     }
 
     fun getTrimmerDraft(): TrimmerDraft? = presenter?.getTrimmerDraft()
